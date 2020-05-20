@@ -12,6 +12,7 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
+import fileReader.ConfigReader;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class DriverCreation {
@@ -23,9 +24,15 @@ public class DriverCreation {
 	 */
 	@BeforeMethod
 	public void createDriver() {
+		//Object to read properties from config file
+		ConfigReader reader = new ConfigReader();
+		//Manage ChromeDriver
 		WebDriverManager.chromedriver().setup();
+		//Driver Creation
 		WebDriver driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		//Navigating to BaseURL
+		driver.get(reader.getBaseURL());
 		driver.manage().window().maximize();
 		setDriver(driver);
 	}
