@@ -1,0 +1,65 @@
+package baseDriver;
+
+import java.io.File;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class DriverCreation {
+
+	private ThreadLocal<WebDriver> tlDriver = new ThreadLocal<WebDriver>();
+
+	/*
+	 * Method to create a chrome Driver
+	 */
+	@BeforeMethod
+	public void createDriver() {
+		WebDriverManager.chromedriver().setup();
+		WebDriver driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.manage().window().maximize();
+		setDriver(driver);
+	}
+
+	/*
+	 * Method is to set the driver to Thread after creation
+	 */
+	public void setDriver(WebDriver driver) {
+		this.tlDriver.set(driver);
+	}
+
+	/*
+	 * Method returns the driver
+	 */
+	public WebDriver getDriver() {
+		return this.tlDriver.get();
+	}
+
+	/*
+	 * Close the driver after the completion of a test scenario and take-screenshot
+	 * on failure
+	 */
+	@AfterMethod
+	public void closeDriver(ITestResult result) {
+		if (ITestResult.FAILURE == result.getStatus()) {
+			try {
+				// Call method to capture screenshot
+				File src = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
+				// Move the file to the FailureScreenshots folder
+				FileUtils.copyFile(src, new File("FailureScreenshots\\" + result.getClass() + ".png"));
+			} catch (Exception e) {
+				System.out.println("Exception while taking screenshot " + e.getMessage());
+			}
+		}
+		getDriver().close();
+	}
+}
