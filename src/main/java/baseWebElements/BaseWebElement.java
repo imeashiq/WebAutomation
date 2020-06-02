@@ -54,4 +54,8 @@ public class BaseWebElement {
 	public String replaceDynamicLocator(String element, String replacementValue) {
 		return element.replace("<<<>>>", replacementValue);
 	}
+	
+	public String replaceMultipleDynamicLocator(String element, String replacementValue1, String replacementValue2) {
+		return element.replaceFirst("<<<>>>", replacementValue1).replaceFirst("<<<>>>", replacementValue2);
+	}
 }

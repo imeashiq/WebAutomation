@@ -21,7 +21,8 @@ public class DashBoard extends BaseWebElement {
 	public static String approvalsTitle = "XPATH://h1[contains(text(),'Approvals')]";
 	public static String manageUserAccess = "XPATH://*[@id='quickLinkCategoryAccess_list']/ul/li/a[contains(text(),'Manage User Access')]";
 	public static String manageUserAccessTitle = "XPATH://h1[contains(text(),'Manage User Access')]";
-	
+	public static String viewIdentity = "XPATH://*[@id='quickLinkCategoryManage_list']/ul/li/a[contains(text(),'View Identity')]";
+	public static String viewIdentityTitle = "XPATH://h1[contains(text(),'View Identity')]";
 	/*
 	 * Navigate to Manage User Access Page
 	 */
@@ -40,5 +41,15 @@ public class DashBoard extends BaseWebElement {
 		getElement(driver, myTask, 10).click();
 		getElement(driver, approvals, 10).click();
 		Assert.assertTrue(getElement(driver, approvalsTitle, 10).isDisplayed(), "User is not navigated to Approvals Page.");
+	}
+	
+	/*
+	 * Navigate to View Identity Page
+	 */
+	public void viewIdentity() {
+		getElement(driver, quickLinkMenu, 10).click();
+		getElement(driver, manageIdentity, 10).click();
+		getElement(driver, viewIdentity, 10).click();
+		Assert.assertTrue(getElement(driver, viewIdentityTitle, 10).isDisplayed(), "User is not navigated to View Identity Page.");
 	}
 }

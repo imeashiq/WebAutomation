@@ -10,14 +10,13 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 import fileReader.ConfigReader;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import io.github.bonigarcia.wdm.config.OperatingSystem;
 
 public class DriverCreation {
 
@@ -31,10 +30,9 @@ public class DriverCreation {
 		// Object to read properties from config file
 		ConfigReader reader = new ConfigReader();
 		// Manage ChromeDriver
-		WebDriverManager.edgedriver().operatingSystem(OperatingSystem.WIN).setup();
+		WebDriverManager.chromedriver().setup();
 		// Driver Creation
-		//WebDriver driver = new ChromeDriver();
-		WebDriver driver = new EdgeDriver();
+		WebDriver driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		// Navigating to BaseURL
 		driver.get(reader.getBaseURL());
