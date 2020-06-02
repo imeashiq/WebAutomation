@@ -15,8 +15,8 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
-import fileReader.ConfigReader;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import utilities.ConfigReader;
 
 public class DriverCreation {
 

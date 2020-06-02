@@ -1,4 +1,4 @@
-package fileReader;
+package utilities;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class ConfigReader {
-	
+
 	InputStream file;
 	Properties reader = new Properties();
 
@@ -16,7 +16,7 @@ public class ConfigReader {
 	 */
 	public ConfigReader() {
 		try {
-			file = new FileInputStream("Resources\\config.properties");
+			file = new FileInputStream(System.getProperty("user.dir") + "/Resources/config.properties");
 			reader.load(file);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -30,11 +30,11 @@ public class ConfigReader {
 	public String getBaseURL() {
 		return reader.getProperty("BaseURL");
 	}
-	
+
 	public String getUsername() {
 		return reader.getProperty("Username");
 	}
-	
+
 	public String getPassword() {
 		return reader.getProperty("Password");
 	}

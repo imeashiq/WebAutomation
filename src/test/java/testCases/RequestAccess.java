@@ -13,33 +13,35 @@ public class RequestAccess extends DriverCreation {
 	String adminUser = "admin";
 	String managerUser = "catherine";
 	String userAccess = "tammy";
-	String appAndEntitle = "Type1";	
-	@Test
+	String appAndEntitle = "Type1";
+
+	@Test (description = "Verify user able to raise access for the reportee.")
 	public void raisingAccessForOtherUser() {
 		WebDriver driver = getDriver();
 		Login login = new Login(driver);
 		DashBoard dashboard = new DashBoard(driver);
 		MyTask myTask = new MyTask(driver);
 		ManageAccess manageAccess = new ManageAccess(driver);
-		
-		//Login as Manager to raise Access
+
+		// Login as Manager to raise Access
 		login.loginApplication(managerUser);
-		//Navigate to manage user access
+		// Navigate to manage user access
 		dashboard.manageUserAccess();
-		//Raise access request for the user
+		// Raise access request for the user
 		manageAccess.searchAndSelectUser(userAccess);
 		manageAccess.searchAndSelectAccess(appAndEntitle);
 		manageAccess.reviewAndSubmit();
-		//logout
+		// logout
 		login.logoutApplication();
-		
-		//Login as admin to approve request
+
+		// Login as admin to approve request
 		login.loginApplication(adminUser);
-		//Navigate to Approvals
+		// Navigate to Approvals
 		dashboard.approvals();
 		myTask.approveAllRequests();
 		
-		
 	}
+	
+	
 
 }

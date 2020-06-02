@@ -42,20 +42,33 @@ public class BaseWebElement {
 		} catch (NoSuchElementException e) {
 			e.printStackTrace();
 		}
-		
+
 		// Create instance of Javascript executor
 		JavascriptExecutor je = (JavascriptExecutor) driver;
-		// now execute query which actually will scroll until that element is not appeared on page.
+		// now execute query which actually will scroll until that element is not
+		// appeared on page.
 		je.executeScript("arguments[0].scrollIntoView(true);", rElement);
-		
+
 		return rElement;
 	}
 
 	public String replaceDynamicLocator(String element, String replacementValue) {
 		return element.replace("<<<>>>", replacementValue);
 	}
-	
+
 	public String replaceMultipleDynamicLocator(String element, String replacementValue1, String replacementValue2) {
 		return element.replaceFirst("<<<>>>", replacementValue1).replaceFirst("<<<>>>", replacementValue2);
+	}
+
+	/*
+	 * Return Boolean value based on presence of element
+	 */
+	public boolean isElementPresent(WebDriver driver, String element, int timeOut) {
+		try {
+			getElement(driver, element, 8).isDisplayed();
+			return true;
+		} catch (NoSuchElementException e) {
+			return false;
+		}
 	}
 }

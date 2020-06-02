@@ -6,8 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 import baseWebElements.BaseWebElement;
-import fileReader.CSVReader;
-import fileReader.ConfigReader;
+import utilities.CSVReader;
+import utilities.ConfigReader;
 
 public class Login extends BaseWebElement {
 
@@ -16,7 +16,7 @@ public class Login extends BaseWebElement {
 
 	public Login(WebDriver driver) {
 		this.driver = driver;
-		csvReader= new CSVReader();
+		csvReader = new CSVReader();
 	}
 
 	// Locators used in this page

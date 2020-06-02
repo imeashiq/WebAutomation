@@ -1,4 +1,4 @@
-package fileReader;
+package utilities;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -14,11 +14,11 @@ public class CSVReader {
 		HashMap<String, String> appAndEntitleDetails = new HashMap<String, String>();
 		Reader in;
 		try {
-			in = new FileReader("Resources/EntitleAndApp.csv");
+			in = new FileReader(System.getProperty("user.dir") + "/Resources/EntitleAndApp.csv");
 			Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
 			for (CSVRecord record : records) {
-				if (record.get("Input").trim().equalsIgnoreCase("input")) {
-					appAndEntitleDetails.put("AppName", record.get("Application").trim());
+				if (record.get("Input").trim().equalsIgnoreCase(input)) {
+					appAndEntitleDetails.put("Application", record.get("Application").trim());
 					appAndEntitleDetails.put("Entitlement", record.get("Entitlement").trim());
 					break;
 				}
@@ -38,10 +38,10 @@ public class CSVReader {
 		HashMap<String, String> userDetails = new HashMap<String, String>();
 		Reader in;
 		try {
-			in = new FileReader("Resources/loginDetails.csv");
+			in = new FileReader(System.getProperty("user.dir") + "/Resources/loginDetails.csv");
 			Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
 			for (CSVRecord record : records) {
-				if (record.get("User").trim().equalsIgnoreCase("userType")) {
+				if (record.get("User").trim().equalsIgnoreCase(userType)) {
 					userDetails.put("UserID", record.get("UserID").trim());
 					userDetails.put("Password", record.get("Password").trim());
 					break;
