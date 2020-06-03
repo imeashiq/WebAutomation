@@ -1,16 +1,21 @@
 package pageClass;
 
+import java.util.HashMap;
+
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 import baseWebElements.BaseWebElement;
 import io.qameta.allure.Step;
+import utilities.CSVReader;
 
 public class ManageIdentity extends BaseWebElement {
 	WebDriver driver;
+	CSVReader csvReader;
 
 	public ManageIdentity(WebDriver driver) {
 		this.driver = driver;
+		csvReader = new CSVReader();
 	}
 
 	/*
@@ -26,8 +31,8 @@ public class ManageIdentity extends BaseWebElement {
 	 * Manage an Identity
 	 */
 	@Step("Manage an Identity")
-	public void manageIdentity(String identityName) {
-		getElement(driver, "manageIdentity", 15).click();
+	public void manageIdentity() {
+		getElement(driver, "manageIdentityAfterSearch", 15).click();
 		Assert.assertTrue(getElement(driver, "identityDetailsTitle", 10).isDisplayed(),
 				"Identity Details is not displayed after clicking Manage Button.");
 	}
@@ -46,8 +51,14 @@ public class ManageIdentity extends BaseWebElement {
 	 * Verify the Entitlements
 	 */
 	@Step("Verify the Entitlements")
-	public void verifyEntitlements(String application, String entitlement) {
-		Assert.assertTrue(getElement(driver, replaceMultipleDynamicLocator("appAndEntitle", application, entitlement), 10)
-				.isDisplayed(), "Entitlement is not present for the identity.");
+	public void verifyEntitlements(String appAndEntitle) {
+		// To read data from user file
+		HashMap<String, String> appDetails = csvReader.readEntitleAndApp(appAndEntitle);
+		Assert.assertTrue(
+				getElement(driver,
+						replaceMultipleDynamicLocator("appAndEntitle", appDetails.get("Entitlement"),
+								appDetails.get("Application")),
+						10).isDisplayed(),
+				"Entitlement is not present for the identity.");
 	}
 }

@@ -24,10 +24,10 @@ public class ManageAccess extends BaseWebElement {
 	@Step("Search and Select the User in the User access page")
 	public void searchAndSelectUser(String user) {
 		// To read data from user file
-		HashMap<String, String> userDetails = csvReader.readUserDetails(user);
-		getElement(driver, "searchUserTxtBx", 10).sendKeys(userDetails.get("UserID"));
+		//HashMap<String, String> userDetails = csvReader.readUserDetails(user);
+		getElement(driver, "searchUserTxtBx", 10).sendKeys(user);
 		getElement(driver, "userSearchBtn", 10).click();
-		getElement(driver, replaceDynamicLocator("selectUser", userDetails.get("UserID")), 10).click();
+		getElement(driver, replaceDynamicLocator("selectUser", user), 10).click();
 		getElement(driver, "nextBtn", 10).click();
 		Assert.assertTrue(getElement(driver, "searchHeader", 10).isDisplayed(),
 				"User is not navigated to Search Access Page.");
@@ -54,5 +54,7 @@ public class ManageAccess extends BaseWebElement {
 	@Step("Submit User Access request for the user")
 	public void reviewAndSubmit() {
 		getElement(driver, "submitBtn", 10).click();
+		Assert.assertTrue(getElement(driver, "requestSubmitted", 10).isDisplayed(),
+				"User request is not submitted.");
 	}
 }

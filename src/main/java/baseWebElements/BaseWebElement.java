@@ -5,6 +5,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -19,6 +20,9 @@ public class BaseWebElement {
 	 */
 	public WebElement getElement(WebDriver driver, String element, int timeOut) {
 
+		//Wait for page load
+		waitForPageLoad(driver);
+		
 		// Create wait with given wait time passed as argument
 		WebDriverWait wait = new WebDriverWait(driver, timeOut);
 
@@ -30,9 +34,7 @@ public class BaseWebElement {
 			ConfigReader objectRepo = new ConfigReader();
 			element = objectRepo.getObjectProperty(element);
 		}
-		
-		new WebDriverWait(driver, 15).until(webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
-		
+
 		By locator = null;
 		try {
 			String[] divider = element.split(":", 2);
@@ -50,6 +52,7 @@ public class BaseWebElement {
 				locator = By.name(locatorValue);
 				break;
 			}
+			wait.until(ExpectedConditions.presenceOfElementLocated(locator));
 			rElement = wait.until(ExpectedConditions.elementToBeClickable(locator));
 		} catch (NoSuchElementException e) {
 			e.printStackTrace();
@@ -59,11 +62,21 @@ public class BaseWebElement {
 		JavascriptExecutor je = (JavascriptExecutor) driver;
 		// now execute query which actually will scroll until that element is not
 		// appeared on page.
-		je.executeScript("arguments[0].scrollIntoView(true);", rElement);
+		je.executeScript("arguments[0].scrollIntoView();", rElement);
 
 		isDynamicElement = false;
 
 		return rElement;
+	}
+
+	public void waitForPageLoad(WebDriver driver) {
+		ExpectedCondition<Boolean> pageLoadCondition = new ExpectedCondition<Boolean>() {
+			public Boolean apply(WebDriver driver) {
+				return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
+			}
+		};
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(pageLoadCondition);
 	}
 
 	public String replaceDynamicLocator(String element, String replacementValue) {
@@ -89,7 +102,7 @@ public class BaseWebElement {
 		try {
 			getElement(driver, element, 8).isDisplayed();
 			return true;
-		} catch (NoSuchElementException e) {
+		} catch (Exception e) {
 			return false;
 		}
 	}

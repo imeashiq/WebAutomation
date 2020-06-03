@@ -1,7 +1,5 @@
 package pageClass;
 
-import java.util.HashMap;
-
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
@@ -40,9 +38,9 @@ public class Login extends BaseWebElement {
 	 */
 	@Step("Login into the application with given user")
 	public void loginApplication(String userType) {
-		HashMap<String, String> userDetails = csvReader.readUserDetails(userType);
-		getElement(driver, "login_username", 20).sendKeys(userDetails.get("UserID"));
-		getElement(driver, "login_password", 5).sendKeys(userDetails.get("Password"));
+		//HashMap<String, String> userDetails = csvReader.readUserDetails(userType);
+		getElement(driver, "login_username", 20).sendKeys(userType);
+		getElement(driver, "login_password", 5).sendKeys("xyzzy");
 		getElement(driver, "login_loginBtn", 5).click();
 		Assert.assertTrue(getElement(driver, "homepage_userName", 15).isDisplayed(),
 				"User unable to login to Sailpoint Application");

@@ -8,9 +8,11 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -32,11 +34,13 @@ public class DriverCreation {
 		// Manage ChromeDriver
 		WebDriverManager.chromedriver().setup();
 		// Driver Creation
-		WebDriver driver = new ChromeDriver();
+		ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+		WebDriver driver = new ChromeDriver(chromeOptions);
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.manage().window().maximize();
 		// Navigating to BaseURL
 		driver.get(reader.getBaseURL());
-		driver.manage().window().maximize();
 		setDriver(driver);
 	}
 
