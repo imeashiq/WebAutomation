@@ -8,7 +8,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import utilities.ConfigReader;
+
 public class BaseWebElement {
+
+	boolean isDynamicElement = false;
 
 	/*
 	 * Method is to find with WebElement with Expilicit Wait and return it.
@@ -21,6 +25,14 @@ public class BaseWebElement {
 		// Return Element
 		WebElement rElement = null;
 
+		if (!isDynamicElement) {
+			// Get the property from the Object Repository
+			ConfigReader objectRepo = new ConfigReader();
+			element = objectRepo.getObjectProperty(element);
+		}
+		
+		new WebDriverWait(driver, 15).until(webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
+		
 		By locator = null;
 		try {
 			String[] divider = element.split(":", 2);
@@ -38,7 +50,7 @@ public class BaseWebElement {
 				locator = By.name(locatorValue);
 				break;
 			}
-			rElement = wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+			rElement = wait.until(ExpectedConditions.elementToBeClickable(locator));
 		} catch (NoSuchElementException e) {
 			e.printStackTrace();
 		}
@@ -49,14 +61,24 @@ public class BaseWebElement {
 		// appeared on page.
 		je.executeScript("arguments[0].scrollIntoView(true);", rElement);
 
+		isDynamicElement = false;
+
 		return rElement;
 	}
 
 	public String replaceDynamicLocator(String element, String replacementValue) {
+		// Get the property from the Object Repository
+		ConfigReader objectRepo = new ConfigReader();
+		element = objectRepo.getObjectProperty(element);
+		isDynamicElement = true;
 		return element.replace("<<<>>>", replacementValue);
 	}
 
 	public String replaceMultipleDynamicLocator(String element, String replacementValue1, String replacementValue2) {
+		// Get the property from the Object Repository
+		ConfigReader objectRepo = new ConfigReader();
+		element = objectRepo.getObjectProperty(element);
+		isDynamicElement = true;
 		return element.replaceFirst("<<<>>>", replacementValue1).replaceFirst("<<<>>>", replacementValue2);
 	}
 

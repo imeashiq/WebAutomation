@@ -15,7 +15,7 @@ public class RequestAccess extends DriverCreation {
 	String userAccess = "tammy";
 	String appAndEntitle = "Type1";
 
-	@Test (description = "Verify user able to raise access for the reportee.")
+	@Test(description = "Verify user able to raise access for the reportee.")
 	public void raisingAccessForOtherUser() {
 		WebDriver driver = getDriver();
 		Login login = new Login(driver);
@@ -39,9 +39,6 @@ public class RequestAccess extends DriverCreation {
 		// Navigate to Approvals
 		dashboard.approvals();
 		myTask.approveAllRequests();
-		
 	}
-	
-	
 
 }
