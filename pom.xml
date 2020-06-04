@@ -9,6 +9,7 @@
 		<aspectj.version>1.9.5</aspectj.version>
 		<allure.version>2.13.2</allure.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
@@ -78,6 +79,7 @@
 					<suiteXmlFiles>
 						<suiteXmlFile>testng.xml</suiteXmlFile>
 					</suiteXmlFiles>
+					<testFailureIgnore>true</testFailureIgnore>
 					<argLine>
 						-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
 					</argLine>
@@ -96,6 +98,11 @@
 					</dependency>
 				</dependencies>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.4</version>
+			</plugin>
 		</plugins>
 	</build>
 	<reporting>
@@ -108,6 +115,11 @@
 				<configuration>
 					<reportVersion>${allure.version}</reportVersion>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.14.1</version>
 			</plugin>
 		</plugins>
 	</reporting>
