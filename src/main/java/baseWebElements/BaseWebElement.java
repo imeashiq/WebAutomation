@@ -2,12 +2,12 @@ package baseWebElements;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import utilities.ConfigReader;
 
@@ -16,7 +16,7 @@ public class BaseWebElement {
 	boolean isDynamicElement = false;
 
 	/*
-	 * Method is to find with WebElement with Expilicit Wait and return it.
+	 * Method is to find with WebElement with Explicit Wait and return it.
 	 */
 	public WebElement getElement(WebDriver driver, String element, int timeOut) {
 
@@ -54,8 +54,10 @@ public class BaseWebElement {
 			}
 			wait.until(ExpectedConditions.presenceOfElementLocated(locator));
 			rElement = wait.until(ExpectedConditions.elementToBeClickable(locator));
-		} catch (NoSuchElementException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
+			//To make test failure in Allure Report
+			Assert.assertTrue(false);
 		}
 
 		// Create instance of Javascript executor

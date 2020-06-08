@@ -18,6 +18,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.qameta.allure.Attachment;
 import utilities.ConfigReader;
 
 public class DriverCreation {
@@ -69,9 +70,7 @@ public class DriverCreation {
 		if (ITestResult.FAILURE == result.getStatus()) {
 			try {
 				// Call method to capture screenshot
-				File src = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
-				// Move the file to the FailureScreenshots folder
-				FileUtils.copyFile(src, new File("FailureScreenshots\\" + result.getClass() + ".png"));
+				takeScreenshot(getDriver(), result.getClass().getName());
 			} catch (Exception e) {
 				System.out.println("Exception while taking screenshot " + e.getMessage());
 			}
@@ -82,7 +81,8 @@ public class DriverCreation {
 	/*
 	 * Method to take screenshot
 	 */
-	public static String TakeScreenshot(WebDriver driver, String screenshotName) throws IOException {
+	@Attachment
+	public byte[] takeScreenshot(WebDriver driver, String screenshotName) throws IOException {
 		String dateName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File source = ts.getScreenshotAs(OutputType.FILE);
@@ -92,6 +92,6 @@ public class DriverCreation {
 		String destination = System.getProperty("user.dir") + "/Screenshots/" + screenshotName + dateName + ".png";
 		File finalDestination = new File(destination);
 		FileUtils.copyFile(source, finalDestination);
-		return destination;
+		return ts.getScreenshotAs(OutputType.BYTES);
 	}
 }
