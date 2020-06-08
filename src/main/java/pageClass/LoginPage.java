@@ -8,12 +8,12 @@ import io.qameta.allure.Step;
 import utilities.CSVReader;
 import utilities.ConfigReader;
 
-public class Login extends BaseWebElement {
+public class LoginPage extends BaseWebElement {
 
 	WebDriver driver;
 	CSVReader csvReader;
 
-	public Login(WebDriver driver) {
+	public LoginPage(WebDriver driver) {
 		this.driver = driver;
 		csvReader = new CSVReader();
 	}

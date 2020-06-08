@@ -9,11 +9,11 @@ import baseWebElements.BaseWebElement;
 import io.qameta.allure.Step;
 import utilities.CSVReader;
 
-public class ManageAccess extends BaseWebElement {
+public class ManageAccessPage extends BaseWebElement {
 	WebDriver driver;
 	CSVReader csvReader;
 
-	public ManageAccess(WebDriver driver) {
+	public ManageAccessPage(WebDriver driver) {
 		this.driver = driver;
 		csvReader = new CSVReader();
 	}

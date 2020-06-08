@@ -6,10 +6,10 @@ import org.testng.Assert;
 import baseWebElements.BaseWebElement;
 import io.qameta.allure.Step;
 
-public class DashBoard extends BaseWebElement {
+public class DashBoardPage extends BaseWebElement {
 	WebDriver driver;
 
-	public DashBoard(WebDriver driver) {
+	public DashBoardPage(WebDriver driver) {
 		this.driver = driver;
 	}
 

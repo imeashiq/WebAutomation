@@ -36,6 +36,8 @@ public class DriverCreation {
 		// Driver Creation
 		ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+        //For Headless execution uncomment the below line
+        //chromeOptions.setHeadless(true);
 		WebDriver driver = new ChromeDriver(chromeOptions);
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.manage().window().maximize();

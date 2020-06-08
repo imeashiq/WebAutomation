@@ -5,10 +5,10 @@ import org.openqa.selenium.WebDriver;
 import baseWebElements.BaseWebElement;
 import io.qameta.allure.Step;
 
-public class MyTask extends BaseWebElement {
+public class MyTaskPage extends BaseWebElement {
 	WebDriver driver;
 
-	public MyTask(WebDriver driver) {
+	public MyTaskPage(WebDriver driver) {
 		this.driver = driver;
 	}
 

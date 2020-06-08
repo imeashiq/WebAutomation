@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 
 import baseDriver.DriverCreation;
-import pageClass.Login;
+import pageClass.LoginPage;
 
 public class LoginTest extends DriverCreation {
 	
@@ -12,7 +12,7 @@ public class LoginTest extends DriverCreation {
 	public void test1() {
 		
 		WebDriver driver = getDriver();
-		Login login = new Login(driver);
+		LoginPage login = new LoginPage(driver);
 		
 		//Login to the Application as admin
 		login.loginApplication();

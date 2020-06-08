@@ -6,32 +6,29 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 
 import baseDriver.DriverCreation;
-import pageClass.DashBoard;
-import pageClass.Login;
-import pageClass.ManageAccess;
-import pageClass.ManageIdentity;
-import pageClass.MyTask;
+import pageClass.DashBoardPage;
+import pageClass.LoginPage;
+import pageClass.ManageAccessPage;
+import pageClass.ManageIdentityPage;
+import pageClass.MyTaskPage;
 import utilities.JdbcUtil;
 
-public class RequestAccess extends DriverCreation {
-	String adminUser = "admin";
-	String managerUser = "catherine";
-	String userAccess = "tammy";
+public class AddEntitlementRequestTest extends DriverCreation {
 	String appAndEntitle = "Type1";
 
 	@Test(description = "Verify user able to raise access for the reportee.")
 	public void raisingAccessForOtherUser() {
 		// Get testData drom the DB
 		JdbcUtil testData = new JdbcUtil();
-		HashMap<String, String> identityDetails = testData.testData();
+		HashMap<String, String> identityDetails = new HashMap<String, String>();
 
 		// Required objects for the Test
 		WebDriver driver = getDriver();
-		Login login = new Login(driver);
-		DashBoard dashboard = new DashBoard(driver);
-		MyTask myTask = new MyTask(driver);
-		ManageAccess manageAccess = new ManageAccess(driver);
-		ManageIdentity manageIdentity = new ManageIdentity(driver);
+		LoginPage login = new LoginPage(driver);
+		DashBoardPage dashboard = new DashBoardPage(driver);
+		MyTaskPage myTask = new MyTaskPage(driver);
+		ManageAccessPage manageAccess = new ManageAccessPage(driver);
+		ManageIdentityPage manageIdentity = new ManageIdentityPage(driver);
 
 		// Login as Manager to raise Access
 		login.loginApplication(identityDetails.get("manager"));
