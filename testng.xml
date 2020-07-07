@@ -3,7 +3,7 @@
 <suite name="Suite">
   <test thread-count="5" name="Sailpoint Test">
     <classes>
-      <class name="testCases.RequestAccess"/>
+      <class name="testCases.AddEntitlementRequestTest"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->
