@@ -1,5 +1,6 @@
 package pageClass;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import org.openqa.selenium.WebDriver;
@@ -53,8 +54,14 @@ public class ManageAccessPage extends BaseWebElement {
 	 */
 	@Step("Submit User Access request for the user")
 	public void reviewAndSubmit() {
-		getElement(driver, "submitBtn", 10).click();
-		Assert.assertTrue(getElement(driver, "requestSubmitted", 25).isDisplayed(),
-				"User request is not submitted.");
+		try {
+			takeScreenshot(driver, "Review and Submit");
+			getElement(driver, "submitBtn", 10).click();
+			Assert.assertTrue(getElement(driver, "requestSubmitted", 25).isDisplayed(),
+					"User request is not submitted.");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

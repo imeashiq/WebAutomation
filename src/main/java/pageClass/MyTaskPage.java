@@ -1,5 +1,7 @@
 package pageClass;
 
+import java.io.IOException;
+
 import org.openqa.selenium.WebDriver;
 
 import baseWebElements.BaseWebElement;
@@ -17,10 +19,16 @@ public class MyTaskPage extends BaseWebElement {
 	 */
 	@Step("Approve all the requests")
 	public void approveAllRequests() {
-		getElement(driver, "approveAll", 10).click();
-		getElement(driver, "completeBtn", 10).click();
-		if (isElementPresent(driver, "cancelBtn", 15)) {
-			getElement(driver, "cancelBtn", 10).click();
+		try {
+			takeScreenshot(driver, "Approve the request");
+			getElement(driver, "approveAll", 10).click();
+			getElement(driver, "completeBtn", 10).click();
+			if (isElementPresent(driver, "cancelBtn", 15)) {
+				getElement(driver, "cancelBtn", 10).click();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

@@ -11,24 +11,25 @@ import pageClass.LoginPage;
 import pageClass.ManageAccessPage;
 import pageClass.ManageIdentityPage;
 import pageClass.MyTaskPage;
+import utilities.CSVReader;
 
 public class AddEntitlementRequestTest extends DriverCreation {
 	String appAndEntitle = "PRISM-VPN";
+	String userDetails = "Alan.Bradley";
 
-	// Required objects for the Test
-	WebDriver driver = getDriver();
-	LoginPage login = new LoginPage(driver);
-	DashBoardPage dashboard = new DashBoardPage(driver);
-	MyTaskPage myTask = new MyTaskPage(driver);
-	ManageAccessPage manageAccess = new ManageAccessPage(driver);
-	ManageIdentityPage manageIdentity = new ManageIdentityPage(driver);
-
-	@Test(description = "Verify user able to raise access for the other user.", groups= {"sanity"})
+	@Test(description = "Verify user able to raise access for the other user.", groups = { "sanity" })
 	public void raisingAccessForOtherUser() {
 		HashMap<String, String> identityDetails = new HashMap<String, String>();
-		identityDetails.put("requestee", "Ann.Alexander");
-		identityDetails.put("manager", "Walter.Henderson");
-		identityDetails.put("owner", "Catherine.Simmons");
+		CSVReader reader = new CSVReader();
+		identityDetails = reader.readIdentityDetails(userDetails);
+
+		// Required objects for the Test
+		WebDriver driver = getDriver();
+		LoginPage login = new LoginPage(driver);
+		DashBoardPage dashboard = new DashBoardPage(driver);
+		MyTaskPage myTask = new MyTaskPage(driver);
+		ManageAccessPage manageAccess = new ManageAccessPage(driver);
+		ManageIdentityPage manageIdentity = new ManageIdentityPage(driver);
 
 		// Login as user to raise Access
 		login.loginApplication();
@@ -40,8 +41,8 @@ public class AddEntitlementRequestTest extends DriverCreation {
 		manageAccess.reviewAndSubmit();
 		// logout
 		login.logoutApplication();
-		
-		//Approve as Manager
+
+		// Approve as Manager
 		login.loginApplication(identityDetails.get("manager"));
 		// Navigate to Approvals
 		dashboard.approvals();
@@ -56,7 +57,7 @@ public class AddEntitlementRequestTest extends DriverCreation {
 		myTask.approveAllRequests();
 		// logout
 		login.logoutApplication();
-		
+
 		// Login as admin
 		login.loginApplication();
 		// Search for Identity

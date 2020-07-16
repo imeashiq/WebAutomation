@@ -1,5 +1,6 @@
 package pageClass;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import org.openqa.selenium.WebDriver;
@@ -52,13 +53,20 @@ public class ManageIdentityPage extends BaseWebElement {
 	 */
 	@Step("Verify the Entitlements")
 	public void verifyEntitlements(String appAndEntitle) {
-		// To read data from user file
-		HashMap<String, String> appDetails = csvReader.readEntitleAndApp(appAndEntitle);
-		Assert.assertTrue(
-				getElement(driver,
-						replaceMultipleDynamicLocator("appAndEntitle", appDetails.get("Entitlement"),
-								appDetails.get("Application")),
-						10).isDisplayed(),
-				"Entitlement is not present for the identity.");
+		try {
+			// To read data from user file
+			HashMap<String, String> appDetails = csvReader.readEntitleAndApp(appAndEntitle);
+			Assert.assertTrue(
+					getElement(driver,
+							replaceMultipleDynamicLocator("appAndEntitle", appDetails.get("Entitlement"),
+									appDetails.get("Application")),
+							10).isDisplayed(),
+					"Entitlement is not present for the identity.");
+
+			takeScreenshot(driver, "Approve the request");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

@@ -57,4 +57,29 @@ public class CSVReader {
 		return userDetails;
 
 	}
+	
+	public HashMap<String, String> readIdentityDetails(String userType) {
+		HashMap<String, String> identityDetails = new HashMap<String, String>();
+		Reader in;
+		try {
+			in = new FileReader(System.getProperty("user.dir") + "/Resources/IdentityDetails.csv");
+			Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
+			for (CSVRecord record : records) {
+				if (record.get("Requestee").trim().equalsIgnoreCase(userType)) {
+					identityDetails.put("requestee", record.get("Requestee").trim());
+					identityDetails.put("manager", record.get("Manager").trim());
+					identityDetails.put("owner", record.get("Owner").trim());
+					break;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return identityDetails;
+
+	}
 }
