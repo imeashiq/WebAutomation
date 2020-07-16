@@ -54,7 +54,7 @@ public class ManageAccessPage extends BaseWebElement {
 	@Step("Submit User Access request for the user")
 	public void reviewAndSubmit() {
 		getElement(driver, "submitBtn", 10).click();
-		Assert.assertTrue(getElement(driver, "requestSubmitted", 10).isDisplayed(),
+		Assert.assertTrue(getElement(driver, "requestSubmitted", 25).isDisplayed(),
 				"User request is not submitted.");
 	}
 }

@@ -11,50 +11,60 @@ import pageClass.LoginPage;
 import pageClass.ManageAccessPage;
 import pageClass.ManageIdentityPage;
 import pageClass.MyTaskPage;
-import utilities.JdbcUtil;
 
 public class AddEntitlementRequestTest extends DriverCreation {
-	String appAndEntitle = "Type1";
+	String appAndEntitle = "PRISM-VPN";
 
-	@Test(description = "Verify user able to raise access for the reportee.")
+	// Required objects for the Test
+	WebDriver driver = getDriver();
+	LoginPage login = new LoginPage(driver);
+	DashBoardPage dashboard = new DashBoardPage(driver);
+	MyTaskPage myTask = new MyTaskPage(driver);
+	ManageAccessPage manageAccess = new ManageAccessPage(driver);
+	ManageIdentityPage manageIdentity = new ManageIdentityPage(driver);
+
+	@Test(description = "Verify user able to raise access for the other user.", groups= {"sanity"})
 	public void raisingAccessForOtherUser() {
-		// Get testData drom the DB
-		JdbcUtil testData = new JdbcUtil();
 		HashMap<String, String> identityDetails = new HashMap<String, String>();
+		identityDetails.put("requestee", "Ann.Alexander");
+		identityDetails.put("manager", "Walter.Henderson");
+		identityDetails.put("owner", "Catherine.Simmons");
 
-		// Required objects for the Test
-		WebDriver driver = getDriver();
-		LoginPage login = new LoginPage(driver);
-		DashBoardPage dashboard = new DashBoardPage(driver);
-		MyTaskPage myTask = new MyTaskPage(driver);
-		ManageAccessPage manageAccess = new ManageAccessPage(driver);
-		ManageIdentityPage manageIdentity = new ManageIdentityPage(driver);
-
-		// Login as Manager to raise Access
-		login.loginApplication(identityDetails.get("manager"));
+		// Login as user to raise Access
+		login.loginApplication();
 		// Navigate to manage user access
 		dashboard.manageUserAccess();
 		// Raise access request for the user
-		manageAccess.searchAndSelectUser(identityDetails.get("userid"));
+		manageAccess.searchAndSelectUser(identityDetails.get("requestee"));
 		manageAccess.searchAndSelectAccess(appAndEntitle);
 		manageAccess.reviewAndSubmit();
 		// logout
 		login.logoutApplication();
-
-		// Login as admin to approve request
-		login.loginApplication(identityDetails.get("sysadmin"));
+		
+		//Approve as Manager
+		login.loginApplication(identityDetails.get("manager"));
 		// Navigate to Approvals
 		dashboard.approvals();
 		myTask.approveAllRequests();
 		// logout
 		login.logoutApplication();
-		// Login as admin to approve request
-		login.loginApplication(identityDetails.get("manager"));
-		// Verify the Entitlement
+
+		// Login as owner to approve request
+		login.loginApplication(identityDetails.get("owner"));
+		// Navigate to Approvals
+		dashboard.approvals();
+		myTask.approveAllRequests();
+		// logout
+		login.logoutApplication();
+		
+		// Login as admin
+		login.loginApplication();
+		// Search for Identity
 		dashboard.viewIdentity();
-		manageIdentity.searchIdentity(identityDetails.get("userid"));
+		manageIdentity.searchIdentity(identityDetails.get("requestee"));
 		manageIdentity.manageIdentity();
 		manageIdentity.identityAccess();
+		// Verify the Entitlement
 		manageIdentity.verifyEntitlements(appAndEntitle);
 	}
 

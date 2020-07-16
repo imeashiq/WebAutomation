@@ -20,9 +20,9 @@ public class BaseWebElement {
 	 */
 	public WebElement getElement(WebDriver driver, String element, int timeOut) {
 
-		//Wait for page load
+		// Wait for page load
 		waitForPageLoad(driver);
-		
+
 		// Create wait with given wait time passed as argument
 		WebDriverWait wait = new WebDriverWait(driver, timeOut);
 
@@ -56,7 +56,7 @@ public class BaseWebElement {
 			rElement = wait.until(ExpectedConditions.elementToBeClickable(locator));
 		} catch (Exception e) {
 			e.printStackTrace();
-			//To make test failure in Allure Report
+			// To make test failure in Allure Report
 			Assert.assertTrue(false);
 		}
 
@@ -102,10 +102,51 @@ public class BaseWebElement {
 	 */
 	public boolean isElementPresent(WebDriver driver, String element, int timeOut) {
 		try {
-			getElement(driver, element, 8).isDisplayed();
-			return true;
+			// Wait for page load
+			waitForPageLoad(driver);
+
+			// Create wait with given wait time passed as argument
+			WebDriverWait wait = new WebDriverWait(driver, timeOut);
+
+			if (!isDynamicElement) {
+				// Get the property from the Object Repository
+				ConfigReader objectRepo = new ConfigReader();
+				element = objectRepo.getObjectProperty(element);
+			}
+
+			By locator = null;
+
+			try {
+				String[] divider = element.split(":", 2);
+				String locatorBy = divider[0];
+				String locatorValue = divider[1];
+
+				switch (locatorBy.toUpperCase()) {
+				case "XPATH":
+					locator = By.xpath(locatorValue);
+					break;
+				case "ID":
+					locator = By.id(locatorValue);
+					break;
+				case "NAME":
+					locator = By.name(locatorValue);
+					break;
+				}
+				wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+				wait.until(ExpectedConditions.elementToBeClickable(locator));
+				return true;
+			} catch (Exception e) {
+				return false;
+			}
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	/*
+	 * Returns the text of the attribute
+	 */
+	public String getText(WebDriver driver, String element) {
+		return getElement(driver, element, 10).getText();
 	}
 }

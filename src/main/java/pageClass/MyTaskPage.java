@@ -19,7 +19,7 @@ public class MyTaskPage extends BaseWebElement {
 	public void approveAllRequests() {
 		getElement(driver, "approveAll", 10).click();
 		getElement(driver, "completeBtn", 10).click();
-		if (isElementPresent(driver, "cancelBtn", 8)) {
+		if (isElementPresent(driver, "cancelBtn", 15)) {
 			getElement(driver, "cancelBtn", 10).click();
 		}
 	}
